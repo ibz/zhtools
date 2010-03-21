@@ -1,0 +1,1 @@
+CREATE TABLE dict (traditional VARCHAR(50), simplified VARCHAR(50), pinyin VARCHAR(100), english VARCHAR(500));
