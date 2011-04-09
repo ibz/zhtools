@@ -28,25 +28,37 @@
 import re
 import sqlite3
 
-strip_tone_re = re.compile(r"^([a-z]+)[1-4]?$")
+strip_tone_re = re.compile(r"^([a-z]+)[1-5]?$")
 
 def pinyinize(s, tone_mark=True):
+    if s is None:
+        return None
+    if s == "":
+        return []
+
     connection = sqlite3.connect("cedict.db")
     cursor = connection.cursor()
 
-    pinyins = []
+    pinyin = []
 
     for c in s:
         cursor.execute("SELECT pinyin FROM dict WHERE traditional = ? OR simplified = ?", (c, c))
-        row = cursor.fetchone()
-        if row is None:
-            pinyins.append(c)
+        rows = cursor.fetchall()
+        if len(rows) == 0:
+            pinyin.append(tuple())
         else:
-            pinyin = row[0]
-            if not tone_mark:
-                pinyin = strip_tone_re.match(pinyin).group(1)
-            pinyins.append(pinyin)
+            pinyin.append(tuple(set(p.lower() if tone_mark else strip_tone_re.match(p.lower()).group(1) for p, in rows)))
 
     connection.close()
 
-    return " ".join(pinyins)
+    return pinyin
+
+def kangxi_rs(c):
+    connection = sqlite3.connect("unihan.db")
+#    connection.text_factory = str
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT radical, additional_strokes FROM kangxi_rs WHERE c = ?", (c,))
+        return list(cursor)
+    finally:
+        connection.close()

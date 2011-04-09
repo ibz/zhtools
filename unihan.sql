@@ -1,0 +1,1 @@
+CREATE TABLE kangxi_rs(c TEXT, radical INT, additional_strokes INT);
