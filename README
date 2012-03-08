@@ -1,5 +1,8 @@
 libzh.py - misc functions related to dealing with Chinese language
 
-cedict_txt2sqlite.py - generate a sqlite database based on the CEDict dictionary file, which you can download from http://www.mdbg.net/chindict/chindict.php?page=cedict
+cedict_txt2sqlite.py - generate a sqlite database based on the cedict dictionary file, which you can download from http://www.mdbg.net/chindict/chindict.php?page=cedict
 cedict.sql - schema for the cedict database as required by the cedict_txt2sqlite.py script
+
+unihan_rs2sqlite.py - generate a sqlite database with radicals from the unihan database, which you can download from http://unicode.org/Public/UNIDATA/Unihan.zip
+unihan.sql - schema for the unihan database as required by the unihan_rs2sqlite.py script
 
